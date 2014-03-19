@@ -9,3 +9,12 @@ class BeneficiosAdmin(admin.ModelAdmin):
     
 admin.site.register(Proveedor, ProveedorAdmin)
 admin.site.register(Beneficios, BeneficiosAdmin)
+admin.site.register(Alumno)
+admin.site.register(Docente)
+admin.site.register(CentroEducativo)
+admin.site.register(Beneficio_Alumno)
+admin.site.register(Beneficio_Ce)
+admin.site.register(Beneficio_Docente)
+admin.site.register(Historico_Alumno)
+admin.site.register(Historico_Docente)
+admin.site.register(Historico_Centro)

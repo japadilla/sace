@@ -24,20 +24,12 @@
 						<label>Descripcion: </label><textarea class="form-control" rows="2" name="beneficioDsc" maxlength="20">{{beneficio.descripcion}}</textarea>	
 					</div>
 				</div><br>
-				<!--<div class="row">					
-					<div class="col-lg-6 col-md-3 col-md-offset-3" style="padding-bottom:50px">
-						<label>Proveedor: </label>
-						<select type="text" class="form-control" name="proveedor">
-						{% for u in proveedor %}
-							{% if u.id = beneficio.Proveedor_id %}
-								<option value="{{ u.id }}" selected="selected">{{ u.nombre }}</option>							
-							{% else %}
-								<option value="{{ u.id }}">{{ u.nombre }}</option>
-							{% endif %}
-						{% endfor %}
-						</select>	
+				<div class="row" style="padding-top: 50px;">
+  					<div class="col-lg-6 col-md-3 col-md-offset-3">
+						<label>Cantidad: </label><input type="text" class="form-control" name="cantidad" value="{{beneficio.cantidad}}" maxlength="6"/>
+						<input type="hidden" class="form-control" name="id" value="{{beneficio.id}}"/>
 					</div>
-				</div>-->
+				</div><br>
 				<div class="row" style="padding-left:350px; padding-bottom:30px">
 					<br><br>
 						<div class="col-lg-3">

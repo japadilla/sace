@@ -32,10 +32,8 @@ def MostrarBeneficios(request):
 		#p= Proveedor.objects.all()
 		#ctx['proveedor']=p
 		ctx['beneficios']=b
-		return render_to_response('beneficios/Beneficios.html', ctx, context_instance=RequestContext(request))
-		ba:8b:31:4b:b8:2c:df:74:fb:19:fb:c6:e4:ae:3d:64 jose.padilla@se.gob.hn
-
-
+	return render_to_response('beneficios/Beneficios.html', ctx, context_instance=RequestContext(request))
+	
 def MostrarProveedores(request):
 	if request.method =='GET':
 		ctx={}
@@ -53,10 +51,8 @@ def editarBeneficio(request, beneficio_id):
 	if request.method =='GET':
 		ctx={}
 		beneficio= Beneficios.objects.get(pk=beneficio_id)
-		#u= Proveedor.objects.all()
 		titulo="Editar Beneficio"
 		mensaje="Seleccione los valores para editar el beneficio social."
-		#ctx['proveedor']=u
 		ctx['beneficio']= beneficio		
 		ctx['titulo']= titulo
 		ctx['mensaje']= mensaje
@@ -65,9 +61,9 @@ def editarBeneficio(request, beneficio_id):
 	elif request.method == 'POST':	
 		beneficio = request.POST['beneficio'].strip()
         descripcion = request.POST['beneficioDsc'].strip()
-        #proveedor = request.POST['proveedor'].strip()
+        cantidad = request.POST['cantidad'].strip()
         cuenta= request.POST['id']        
-    	beneficio1= Beneficios(id= cuenta, nombre=beneficio, descripcion=descripcion, fecha_creacion=datetime.now(), usuario_creador_id=1,fecha_modificacion=datetime.now(), usuario_modificador_id=1)
+    	beneficio1= Beneficios(id= cuenta, nombre=beneficio, descripcion=descripcion, cantidad=cantidad, fecha_creacion=datetime.now(), usuario_creador_id=1,fecha_modificacion=datetime.now(), usuario_modificador_id=1)
 	beneficio1.save()
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
 
@@ -108,16 +104,15 @@ def AgregarBeneficios(request):
 		ctx={}
 		beneficio = request.POST['beneficio'].strip()
         descripcion = request.POST['beneficioDsc'].strip()
-        #proveedor = request.POST['proveedor'].strip()
-        insert= Beneficios(nombre=beneficio, descripcion=descripcion, fecha_creacion=datetime.now(), usuario_modificador_id=1, fecha_modificacion=datetime.now(),usuario_creador_id=1,)
+        insert= Beneficios(nombre=beneficio, descripcion=descripcion, fecha_creacion=datetime.now(), cantidad=cantidad,usuario_modificador_id=1, fecha_modificacion=datetime.now(),usuario_creador_id=1,)
         insert.save()
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
 
 def BeneficioCe(request):
 	ctx={}
 	beneficio= Beneficios.objects.all()
-	#u= Proveedor.objects.all()
-	#ctx['proveedor']=u
+	centro= CentroEducativo.objects.all()
+	ctx['centro']=centro
 	ctx['beneficio']= beneficio
 	return render_to_response('beneficios/Beneficio_Centro.html', ctx,context_instance=RequestContext(request))
 
