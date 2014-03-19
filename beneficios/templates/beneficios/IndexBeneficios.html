@@ -1,0 +1,39 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Prueba</title></head>
+<body>
+	<div class="container">
+			<br/><h1><span class="glyphicon glyphicon-home"></span>Index</h1>
+    		<p>este sera el index para los beneficios.</p>
+		<div class="jumbotron">
+			<h1>Beneficios!</h1>
+			<p class="lead">Aqui se encontraran los beneficios para el sistema educativo nacional.</p>
+		</div>
+		<div class="row">
+			<div class="col-lg-4" style="color:black;">
+				<h2>Beneficios para Centros Educativos</h2>
+				<p>descripcion del beneficio.</p>
+				<p>
+					<a class="btn btn-primary" role="button" href="{%url 'BeneficioCe'%}">Agregar un Beneficio»</a>
+				</p>
+			</div>
+			<div class="col-lg-4">
+				<h2>Beneficios para Alumnos</h2>
+				<p>descripcion del beneficio. </p>
+				<p>
+					<a class="btn btn-primary" role="button" href="#">Agregar un Beneficio»</a>
+				</p>
+			</div>
+			<div class="col-lg-4">
+				<h2>Beneficios para Docentes</h2>
+				<p>descripcion del beneficio. </p>
+				<p>
+					<a class="btn btn-primary" role="button" href="#">Agregar un Beneficio»</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</body>

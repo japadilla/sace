@@ -1,0 +1,37 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Proveedores</title></head>
+<body>
+	<div class="container"><br>
+		<div class="jumbotron">
+			<h1 style="text-align:center;">Proveedores de Beneficios Sociales</h1>
+		</div>
+		<form method="POST" action=".">
+		{% csrf_token %}
+		<p><input type="text" class="form-control" name="buscar" value="{{beneficio.nombre}}" maxlength="20" placeholder="Ingrese los parametros de búsqueda"/></p>
+		<button type="submit" class="btn btn-primary btn-sm" style="text-color:black;" href="{% url 'MostrarProveedores' %}">Buscar</button>	
+		<a type="button" class="btn btn-danger btn-sm" style="text-color:black;" href="{% url 'MostrarProveedores' %}">Cancelar</a>
+		<a type="button" class="btn btn-success btn-sm glyphicon glyphicon-file" href="{% url 'AgregarProveedor' %}"> Agregar Proveedor</a>
+		</form>
+		<br><br>
+		<table class="table table-bordered">
+ 			<thead>
+ 				<tr><th>Editar</th><th>Eliminar</th><th>Proveedor</th><th>Dirección</th><th>Teléfono</th></tr>
+ 			</thead> 			
+ 			<tbody>
+ 				{% for p in proveedor %} 		
+ 				<tr>
+ 					<td style="width:20px;"><a class="btn btn-primary btn-block btn-xs glyphicon glyphicon-pencil" href="{% url 'editarProveedor' p.id %}"></a></td>
+ 					<td style="width:20px;"><a type="button "class="btn btn-danger btn-block btn-xs glyphicon glyphicon-remove-sign" href="{% url 'eliminarProveedor' p.id %}"></a></td>
+ 					<td>{{ p.nombre }}</td>
+ 					<td>{{ p.direccion }}</td>
+ 					<td>{{ p.telefono_fijo }}</td>
+ 				</tr> 	
+ 				{% endfor %}
+ 			</tbody>	
+		</table>		
+	</div>
+</body>

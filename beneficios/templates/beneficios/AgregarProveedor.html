@@ -1,0 +1,44 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Proveedor</title></head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Nuevo Proveedor</h1>
+			<p class="lead">Ingrese los siguientes valores para la creación de un nuevo proveedor beneficios sociales.</p>
+		</div>
+		<div class="container" style="border-radius: 10px;width:700px;">
+			<form method="POST" action=".">
+				{% csrf_token %}
+				<div class="row" style="padding-top: 50px;">
+  					<div class="col-lg-8 col-md-3 col-md-offset-2">
+						<label>Proveedor: </label><input type="text" class="form-control" name="proveedor" value="{{ proveedor.nombre }}" maxlength="20"/>
+						<input type="hidden" class="form-control" name="id" value="{{proveedor.id}}"/>
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-lg-8 col-md-3 col-md-offset-2">
+						<label>Direccion: </label><textarea class="form-control" rows="2" name="direccion" maxlength="20">{{ proveedor.direccion }}</textarea>	
+					</div>
+				</div><br>
+				<div class="row">					
+					<div class="col-lg-8 col-md-3 col-md-offset-2" style="padding-bottom:50px">
+						<label>Teléfono: </label><input type="text" class="form-control" name="telefono" value="{{ proveedor.telefono_fijo }}" maxlength="8"></input>	
+					</div>
+				</div>
+				<div class="row" style="padding-left:155px; padding-bottom:30px">
+					<br><br>
+						<div class="col-lg-4">
+							<button type="submit" class="btn btn-success btn-block" style="text-color:black;" name="agregarProveedor">Agregar</button>
+						</div>
+						<div class="col-lg-4">
+							<a type="button" class="btn btn-danger btn-block" href="{% url 'MostrarProveedores' %}">Cancelar</a>
+						</div>
+				</div>			
+			</form>
+		</div>
+	</div>
+</body>

@@ -1,0 +1,42 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Beneficio Centro Educativo</title></head>
+<body style="background:url('../../static/beneficios/media/images/Exterior_Fuerte_de_Omoa_Honduras1.jpg');background-repeat:no-repeat;  background-size: 1200px 1000px;">
+	<div class="container" >
+		<div class="jumbotron" style="background-color: inherit;text-shadow:2px 1px 1px white;">
+			<h1 style="text-align:center;">Beneficios para un Centro Educativo</h1>
+			<p class="lead" style="text-align:center;">Seleccione el centro educativo para asignarle un nuevo beneficio social.</p>
+		</div>
+		<div class="container" style="border-radius: 10px;box-shadow: 5px 5px 5px #888; width:600px;border:1px solid #FFF;left:50%;top:50%; background-color: white; ">
+			<form method="POST" action=".">
+				<div class="row" style="padding-top: 50px;">
+  					<div class="col-lg-6 col-md-3 col-md-offset-3">
+						<label >Beneficio: </label>
+						<select type="text" class="form-control" name="beneficio">
+						{% for b in beneficio %}							
+								<option value="{{ b.id }}">{{ b.nombre }}</option>
+						{% endfor %}
+						</select>	
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-lg-6 col-md-3 col-md-offset-3">
+						<label>Centro Educativo: </label><select type="text" class="form-control" name="centro"></select>	
+					</div>					
+				</div><br>
+				<div class="row" style="padding-left:155px; padding-bottom:30px">
+					<br><br>
+						<div class="col-lg-4">
+							<button type="button" class="btn btn-success btn-block" style="text-color:black;">Agregar</button>
+						</div>
+						<div class="col-lg-4">
+							<button type="button" class="btn btn-danger btn-block">Cancelar</button>
+						</div>
+				</div>	
+			</form>
+		</div>
+	</div>
+</body>

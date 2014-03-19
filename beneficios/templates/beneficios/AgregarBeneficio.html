@@ -1,0 +1,53 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>{{ titulo }}</title></head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+			<h1>{{ titulo }}</h1>
+			<p class="lead">{{ mensaje }}</p>
+		</div>
+		<div class="container" style="border-radius: 10px;box-shadow: 5px 5px 5px #888; height:100%">
+			<form method="POST" action=".">
+				{% csrf_token %}
+				<div class="row" style="padding-top: 50px;">
+  					<div class="col-lg-6 col-md-3 col-md-offset-3">
+						<label>Beneficio: </label><input type="text" class="form-control" name="beneficio" value="{{beneficio.nombre}}" maxlength="20"/>
+						<input type="hidden" class="form-control" name="id" value="{{beneficio.id}}"/>
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-lg-6 col-md-3 col-md-offset-3">
+						<label>Descripcion: </label><textarea class="form-control" rows="2" name="beneficioDsc" maxlength="20">{{beneficio.descripcion}}</textarea>	
+					</div>
+				</div><br>
+				<!--<div class="row">					
+					<div class="col-lg-6 col-md-3 col-md-offset-3" style="padding-bottom:50px">
+						<label>Proveedor: </label>
+						<select type="text" class="form-control" name="proveedor">
+						{% for u in proveedor %}
+							{% if u.id = beneficio.Proveedor_id %}
+								<option value="{{ u.id }}" selected="selected">{{ u.nombre }}</option>							
+							{% else %}
+								<option value="{{ u.id }}">{{ u.nombre }}</option>
+							{% endif %}
+						{% endfor %}
+						</select>	
+					</div>
+				</div>-->
+				<div class="row" style="padding-left:350px; padding-bottom:30px">
+					<br><br>
+						<div class="col-lg-3">
+							<button type="submit" class="btn btn-success btn-block" style="text-color:black;" name="agregarProveedor">Agregar</button>
+						</div>
+						<div class="col-lg-3">
+							<a type="button" class="btn btn-danger btn-block" href="{% url 'MostrarBeneficios' %}">Cancelar</a>
+						</div>
+				</div>	
+			</form>			
+		</div>
+	</div>
+</body>
