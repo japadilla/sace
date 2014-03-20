@@ -5,7 +5,7 @@ class ProveedorAdmin(admin.ModelAdmin):
 	list_display = ('nombre', 'direccion', 'telefono_fijo')
 
 class BeneficiosAdmin(admin.ModelAdmin):
-	list_display= ('nombre', 'descripcion', 'fecha_creacion')
+	list_display= ('nombre', 'fecha_creacion')
     
 admin.site.register(Proveedor, ProveedorAdmin)
 admin.site.register(Beneficios, BeneficiosAdmin)

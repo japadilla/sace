@@ -10,124 +10,142 @@ from django.core.validators import RegexValidator
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=128)
     direccion = models.CharField(max_length=512)
-    telefono_fijo=models.CharField(max_length=8, verbose_name = "Teléfono fijo")
-    fecha_creacion= models.DateField(default=datetime.now())
+    telefono_fijo=models.CharField(max_length=9, verbose_name = "Teléfono fijo")    
+    contacto = models.CharField(max_length=128)
+    telefono_contacto=models.CharField(max_length=9, verbose_name = "Teléfono fijo")    
+    estado= models.IntegerField(default=1)
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     usuario_creador=models.ForeignKey(User, related_name='pro_usuario_creador')
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='pro_usuario_modificador')
-    estado= models.IntegerField(default=1)
 
 
     def __unicode__(self):  
-        return self.nombre
+        return u'%s' % (self.nombre)
 
 class Beneficios(models.Model):
-    nombre = models.CharField(max_length=128)
-    descripcion= models.CharField(max_length=256)
-    cantidad= models.IntegerField(default=1)
-    fecha_creacion= models.DateField(default=datetime.now())
+    nombre = models.CharField(max_length=128)    
+    estado= models.IntegerField(default=1)
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     usuario_creador=models.ForeignKey(User, related_name='ben_usuario_creador')
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='ben_usuario_modificador')
-    estado= models.IntegerField(default=1)
 
     def __unicode__(self):  
-        return self.nombre
+        return  u'%s' % (self.nombre)
 
 class Alumno(models.Model):
-    alumno= models.IntegerField()
+    nombre = models.CharField(max_length=128)
 
     def __unicode__(self):  
-        return self.alumno 
+        return self.nombre 
 
 class Docente(models.Model):
-    docente= models.IntegerField()
+    nombre = models.CharField(max_length=128)
 
     def __unicode__(self):  
-        return self.docente 
+        return self.nombre 
 
 class CentroEducativo(models.Model):
-    centro= models.IntegerField()
+    nombre = models.CharField(max_length=128)
 
     def __unicode__(self):  
-        return self.centro 
+        return self.nombre 
 
 class Beneficio_Alumno(models.Model):
     beneficio= models.ForeignKey(Beneficios)
     alumno= models.ForeignKey(Alumno)
-    fecha_creacion= models.DateField(default=datetime.now())
+    estado= models.IntegerField(default=1)
+
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     usuario_creador=models.ForeignKey(User, related_name='ba_usuario_creador')
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='ba_usuario_modificador')
-    estado= models.IntegerField(default=1)
+    
 
     def __unicode__(self):  
-        return self.beneficio, self.alumno 
+        return u'%s' % (self.beneficio)
 
 class Beneficio_Ce(models.Model):
     beneficio= models.ForeignKey(Beneficios)
     centro= models.ForeignKey(CentroEducativo)
-    fecha_creacion= models.DateField(default=datetime.now())
+    estado= models.IntegerField(default=1)
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     usuario_creador=models.ForeignKey(User, related_name='bce_usuario_creador')
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='bce_usuario_modificador')
-    estado= models.IntegerField(default=1)
+    
 
     def __unicode__(self):  
-        return self.beneficio, self.centro 
+        return u'%s' % (self.beneficio)
 
 class Beneficio_Docente(models.Model):
     beneficio= models.ForeignKey(Beneficios)
     docente= models.ForeignKey(Docente)
-    fecha_creacion= models.DateField(default=datetime.now())
+    estado= models.IntegerField(default=1)
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     usuario_creador=models.ForeignKey(User, related_name='bd_usuario_creador')
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='bd_usuario_modificador')
-    estado= models.IntegerField(default=1)
+    
 
     def __unicode__(self):  
-        return self.beneficio, self.docente 
+        return u'%s' % (self.beneficio)
 
 
 class Historico_Alumno(models.Model):
     beneficio= models.ForeignKey(Beneficios)
+    descripcion= models.CharField(max_length=256)    
     alumno= models.ForeignKey(Alumno)
     proveedor= models.ForeignKey(Proveedor)
     cantidad= models.IntegerField(default=1)
-    fecha_creacion= models.DateField(default=datetime.now())
+    nombre_encargado= models.CharField(max_length=128)
+    #telefono_encargado=models.CharField(max_length=9, verbose_name = "Teléfono fijo")    
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='ha_usuario_modificador')
     usuario_creador=models.ForeignKey(User, related_name='ha_usuario_creador')
-    usuario_encargado= models.ForeignKey(User, related_name='ha_encargado_recibir_beneficio')
-
+    
     def __unicode__(self):  
-        return self.beneficio, self.alumno, self.proveedor  
+        return u'%s' % (self.beneficio) 
 
 class Historico_Docente(models.Model):
     beneficio= models.ForeignKey(Beneficios)
+    descripcion= models.CharField(max_length=256)    
     docente= models.ForeignKey(Docente)
     proveedor= models.ForeignKey(Proveedor)
     cantidad= models.IntegerField(default=1)
-    fecha_creacion= models.DateField(default=datetime.now())
+    nombre_encargado= models.CharField(max_length=128)
+    #telefono_encargado=models.CharField(max_length=9, verbose_name = "Teléfono fijo")    
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='hd_usuario_modificador')
-    usuario_creador=models.ForeignKey(User, related_name='hd_usuario_creador')
-    usuario_encargado= models.ForeignKey(User, related_name='hd_encargado_recibir_beneficio')
+    usuario_creador=models.ForeignKey(User, related_name='hd_usuario_creador')    
 
     def __unicode__(self):  
-        return self.beneficio, self.docente, self.proveedor 
+        return u'%s' % (self.beneficio)
 
 class Historico_Centro(models.Model):
     beneficio= models.ForeignKey(Beneficios)
+    descripcion= models.CharField(max_length=256)    
     centro= models.ForeignKey(CentroEducativo)
     proveedor= models.ForeignKey(Proveedor)
     cantidad= models.IntegerField(default=1)
-    fecha_creacion= models.DateField(default=datetime.now())
+    nombre_encargado= models.CharField(max_length=128)
+    #telefono_encargado=models.CharField(max_length=9, verbose_name = "Teléfono fijo")    
+
+    fecha_creacion= models.DateField(auto_now_add=True)
     fecha_modificacion= models.DateField(default=datetime.now())
     usuario_modificador=models.ForeignKey(User, related_name='hc_usuario_modificador')
-    usuario_creador=models.ForeignKey(User, related_name='hc_usuario_creador')
-    usuario_encargado= models.ForeignKey(User, related_name='hc_encargado_recibir_beneficio')
+    usuario_creador=models.ForeignKey(User, related_name='hc_usuario_creador')    
 
     def __unicode__(self):  
-        return self.beneficio, self.centro, self.proveedor 
+        return u'%s' % (self.beneficio)
 

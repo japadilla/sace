@@ -11,7 +11,7 @@
 		</div>
 		<form method="POST" action=".">
 		{% csrf_token %}
-		<p><input type="text" class="form-control" name="buscar" value="{{beneficio.nombre}}" maxlength="20" placeholder="Ingrese los parametros de búsqueda"/></p>
+		<p><input type="text" class="form-control" name="buscar" placeholder="Ingrese los parametros de búsqueda"/></p>
 		<button type="submit" class="btn btn-primary btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficios' %}">Buscar</button>	
 		<a type="button" class="btn btn-danger btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficios' %}">Cancelar</a>
 		<a type="button" class="btn btn-success btn-sm glyphicon glyphicon-file" href="{% url 'AgregarBeneficios' %}"> Agregar un nuevo Beneficio</a>

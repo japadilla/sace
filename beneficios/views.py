@@ -28,11 +28,90 @@ def MostrarBeneficios(request):
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		b= Beneficios.objects.filter(Q(nombre__icontains=buscar) | Q(descripcion__icontains=buscar))
+		b= Beneficios.objects.filter(Q(nombre__icontains=buscar))
 		#p= Proveedor.objects.all()
 		#ctx['proveedor']=p
 		ctx['beneficios']=b
 	return render_to_response('beneficios/Beneficios.html', ctx, context_instance=RequestContext(request))
+
+def MostrarBeneficioCE(request):
+	if request.method =='GET':
+		ctx={}
+		bce= Beneficio_Ce.objects.filter(Q(estado=1))
+		p= Proveedor.objects.all()
+		b= Beneficios.objects.all()
+		beneficiado= CentroEducativo.objects.all()
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficiosCentro']=bce	
+		return render_to_response('beneficios/Mostrar_Beneficios_Centro.html', ctx, context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		ctx={}
+		buscar=request.POST['buscar'].strip()
+		b= Beneficios.objects.all()
+		bce= Beneficio_Ce.objects.filter(Q(centro__icontains=buscar), Q(estado=1))
+		p= Proveedor.objects.all()
+		beneficiado= CentroEducativo.objects.all()
+		print eliminar
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficiosCentro']=bce
+	return render_to_response('beneficios/Mostrar_Beneficios_Centro.html', ctx, context_instance=RequestContext(request))
+
+def MostrarBeneficioAlumno(request):
+	if request.method =='GET':
+		ctx={}
+		ba= Beneficio_Alumno.objects.filter(Q(estado=1))
+		p= Proveedor.objects.all()
+		b= Beneficios.objects.all()
+		beneficiado= Alumno.objects.all()
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficio']=ba		
+		return render_to_response('beneficios/Mostrar_Beneficios_Alumno.html', ctx, context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		ctx={}
+		buscar=request.POST['buscar'].strip()
+		b= Beneficios.objects.all()
+		ba= Beneficio_Alumno.objects.filter(Q(alumno__icontains=buscar), Q(estado=1))
+		p= Proveedor.objects.all()
+		beneficiado= Alumno.objects.all()
+		print eliminar
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficio']=ba
+	return render_to_response('beneficios/Mostrar_Beneficios_Alumno.html', ctx, context_instance=RequestContext(request))
+
+def MostrarBeneficioDocente(request):
+	if request.method =='GET':
+		ctx={}
+		bd= Beneficio_Docente.objects.filter(Q(estado=1))
+		p= Proveedor.objects.all()
+		b= Beneficios.objects.all()
+		beneficiado= Docente.objects.all()
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficiod']=bd		
+		return render_to_response('beneficios/Mostrar_Beneficios_Docente.html', ctx, context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		ctx={}
+		buscar=request.POST['buscar'].strip()
+		b= Beneficios.objects.all()
+		ba= Beneficio_Alumno.objects.filter(Q(alumno__icontains=buscar), Q(estado=1))
+		p= Proveedor.objects.all()
+		beneficiado= Docente.objects.all()
+		print eliminar
+		ctx['proveedor']=p		
+		ctx['beneficiado']=beneficiado
+		ctx['beneficios']=b
+		ctx['beneficiod']=ba
+	return render_to_response('beneficios/Mostrar_Beneficios_Docente.html', ctx, context_instance=RequestContext(request))
+
 	
 def MostrarProveedores(request):
 	if request.method =='GET':
@@ -70,6 +149,19 @@ def editarBeneficio(request, beneficio_id):
 def eliminarBeneficio(request, beneficio_id):
 	beneficio= Beneficios.objects.filter(pk=beneficio_id).delete()
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
+
+def DesactivarBeneficioCe(request, beneficio_id):
+	beneficio= Beneficio_Ce.objects.filter(id=beneficio_id).update(estado=0)
+	return HttpResponseRedirect(reverse('MostrarBeneficioCE'))
+
+def DesactivarBeneficioAlumno(request, beneficio_id):
+	beneficio= Beneficio_Alumno.objects.filter(id=beneficio_id).update(estado=0)
+	return HttpResponseRedirect(reverse('MostrarBeneficioAlumno'))
+
+def DesactivarBeneficioDocente(request, beneficio_id):
+	beneficio= Beneficio_Docente.objects.filter(id=beneficio_id).update(estado=0)
+	return HttpResponseRedirect(reverse('MostrarBeneficioDocente'))
+
 
 def eliminarProveedor(request, proveedor_id):
 	proveedor= Proveedor.objects.filter(pk=proveedor_id).delete()
@@ -109,12 +201,114 @@ def AgregarBeneficios(request):
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
 
 def BeneficioCe(request):
-	ctx={}
-	beneficio= Beneficios.objects.all()
-	centro= CentroEducativo.objects.all()
-	ctx['centro']=centro
-	ctx['beneficio']= beneficio
-	return render_to_response('beneficios/Beneficio_Centro.html', ctx,context_instance=RequestContext(request))
+	if request.method =='GET':
+		ctx={}
+		beneficio= Beneficios.objects.all()
+		centro= CentroEducativo.objects.all()
+		p= Proveedor.objects.all()
+		ctx['centro']=centro
+		ctx['beneficio']= beneficio
+		ctx['proveedor']= p
+		return render_to_response('beneficios/Beneficio_Centro.html', ctx,context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		ctx={}
+		beneficio= request.POST['beneficio'].strip()
+		proveedor= request.POST['proveedor'].strip()
+		descripcion= request.POST['descripcion'].strip()
+		beneficiado= request.POST['beneficiado'].strip()
+		cantidad= request.POST['cantidad'].strip()
+		encargado= request.POST['encargado'].strip()
+		insert1= Historico_Centro(beneficio_id=beneficio,
+								descripcion=descripcion,
+								centro_id= beneficiado,
+								proveedor_id= proveedor,
+								nombre_encargado= encargado,
+								cantidad= cantidad,
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+		insert2= Beneficio_Ce(beneficio_id=beneficio,								
+								centro_id= beneficiado,								
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+        insert1.save()
+        insert2.save()
+	return HttpResponseRedirect(reverse('MostrarBeneficioCE'))
+
+
+def BeneficioAlumno(request):
+	if request.method =='GET':
+		ctx={}
+		beneficio= Beneficios.objects.all()
+		alumno= Alumno.objects.all()
+		p= Proveedor.objects.all()
+		ctx['alumno']=alumno
+		ctx['beneficio']= beneficio
+		ctx['proveedor']= p
+		return render_to_response('beneficios/Nuevo_Beneficio_Alumno.html', ctx,context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		beneficio= request.POST['beneficio'].strip()
+		proveedor= request.POST['proveedor'].strip()
+		descripcion= request.POST['descripcion'].strip()
+		beneficiado= request.POST['beneficiado'].strip()
+		cantidad= request.POST['cantidad'].strip()
+		encargado= request.POST['encargado'].strip()
+		insert1= Historico_Alumno(beneficio_id=beneficio,
+								descripcion=descripcion,
+								alumno_id= beneficiado,
+								proveedor_id= proveedor,
+								nombre_encargado= encargado,
+								cantidad= cantidad,
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+		insert2= Beneficio_Alumno(beneficio_id=beneficio,								
+								alumno_id= beneficiado,								
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+        insert1.save()
+        insert2.save()
+	return HttpResponseRedirect(reverse('MostrarBeneficioAlumno'))
+
+def BeneficioDocente(request):
+	if request.method =='GET':
+		ctx={}
+		beneficio= Beneficios.objects.all()
+		docente= Docente.objects.all()
+		p= Proveedor.objects.all()
+		ctx['docente']=docente
+		ctx['beneficio']= beneficio
+		ctx['proveedor']= p
+		return render_to_response('beneficios/Nuevo_Beneficio_Docente.html', ctx,context_instance=RequestContext(request))
+	elif request.method == 'POST':
+		ctx={}
+		beneficio= request.POST['beneficio'].strip()
+		proveedor= request.POST['proveedor'].strip() 
+		descripcion= request.POST['descripcion'].strip()
+		beneficiado= request.POST['beneficiado'].strip()
+		cantidad= request.POST['cantidad'].strip()
+		encargado= request.POST['encargado'].strip()
+		insert1= Historico_Docente(beneficio_id=beneficio,
+								descripcion=descripcion,
+								docente_id= beneficiado,
+								proveedor_id= proveedor,
+								nombre_encargado= encargado,
+								cantidad= cantidad,
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+        insert2= Beneficio_Docente(beneficio_id=beneficio,								
+								docente_id= beneficiado,								
+								usuario_modificador_id=1,
+								fecha_modificacion=datetime.now(),
+								usuario_creador_id=1,)
+        insert1.save()
+        insert2.save()
+	return HttpResponseRedirect(reverse('MostrarBeneficioDocente'))
+
+
 
 def AgregarProveedor(request):
 	if request.method =='GET':
