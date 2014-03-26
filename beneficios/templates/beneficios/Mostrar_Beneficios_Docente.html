@@ -1,0 +1,40 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Docentes Beneficiados</title></head>
+<body>
+	<div class="container"><br>
+		<div class="jumbotron">
+			<h1 style="text-align:center;">Docentes Beneficiados</h1>
+		</div>
+		<form method="POST" action=".">
+		{% csrf_token %}
+		<p><input type="text" class="form-control" name="buscar" placeholder="Ingrese los parametros de búsqueda"/></p>
+		<button type="submit" class="btn btn-primary btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficioDocente' %}">Buscar</button>	
+		<a type="button" class="btn btn-danger btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficioDocente' %}">Cancelar</a>
+		<a type="button" class="btn btn-success btn-sm glyphicon glyphicon-file" href="{% url 'BeneficioDocente' %}"> Agregar un nuevo Beneficio</a>
+		</form>
+		<br><br>
+		<table class="table table-bordered">
+ 			<thead>
+ 				<tr><th>Eliminar</th><th>Beneficio</th><th>Docente</th><th>Fecha de Creación</th></tr>
+ 			</thead> 			
+ 			<tbody>
+ 				{% for b in beneficiod %}
+ 				{% for h in historico %}
+ 					{% if h.id = b.id %}					
+ 				<tr>
+ 					<td style="width:20px;"><a type="button "class="btn btn-danger btn-block btn-xs glyphicon glyphicon-remove-sign" href="{%url 'DesactivarBeneficioAlumno' b.id %}"></a></td>
+ 					<td>{{ b.beneficio }}</td>
+ 					<td>{{ b.docente }}</td>
+ 					<td>{{ b.fecha_creacion }}</td>
+ 				</tr> 
+ 				{% endif %}
+ 				{% endfor %}
+ 				{% endfor %}
+ 			</tbody>	
+		</table>		
+	</div>
+</body>

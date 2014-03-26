@@ -1,0 +1,77 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Beneficios para Alumnos</title></head>
+<!--<body style="background:url('../../static/beneficios/media/images/Exterior_Fuerte_de_Omoa_Honduras1.jpg');background-repeat:no-repeat;  background-size: 1200px 1000px;">-->
+<body>
+	<div class="container" style="padding-bottom:100px" >
+		<div class="jumbotron" style="background-color: inherit;text-shadow:2px 1px 1px white;">
+			<h1 style="text-align:center;">Beneficios para Alumnos</h1>
+			<p class="lead" style="text-align:center;">Seleccione el alumno para asignarle un nuevo beneficio social.</p>
+		</div>
+		<div class="container" style="border-radius: 10px;box-shadow: 5px 5px 5px #888; width:600px;border:1px solid #FFF;left:50%;top:50%; background-color: white; ">
+			<form method="POST" action=".">
+				{% csrf_token %}
+				<div class="row" style="padding-top: 50px;">
+  					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label >Beneficio: </label>
+						<select type="text" class="form-control" name="beneficio">
+						{% for b in beneficio %}							
+								<option value="{{ b.id }}">{{ b.nombre }}</option>
+						{% endfor %}
+						</select>	
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label>Cantidad: </label>
+						<input type="text" class="form-control" name="cantidad" maxlength="5">
+						</input>	
+					</div>					
+				</div><br>
+				<div class="row">
+					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label>Alumno: </label>
+						<select type="text" class="form-control" name="beneficiado">
+								{% for a in alumno %}
+									<option value="{{ a.id }}">{{ a.nombre }}</option>
+								{% endfor %}
+						</select>	
+					</div>					
+				</div><br>
+				<div class="row">
+					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label>Proveedor: </label>
+						<select type="text" class="form-control" name="proveedor">
+								{% for p in proveedor %}
+									<option value="{{ p.id }}">{{ p.nombre }}</option>
+								{% endfor %}
+						</select>	
+					</div>					
+				</div><br>
+				<div class="row">
+					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label>Encargado de Recibir: </label>
+						<input type="text" class="form-control" name="encargado" ></input>
+					</div>					
+				</div><br>
+				<div class="row">
+					<div class="col-lg-9 col-md-3 col-md-offset-1">
+						<label>Descripcion: </label><textarea class="form-control" rows="2" name="descripcion">{{beneficio.descripcion}}</textarea>	
+					</div>
+				</div><br>
+				<div class="row" style="padding-left:115px; padding-bottom:30px">
+					<br><br>
+						<div class="col-lg-4">
+							<button type="submit" class="btn btn-success btn-block" style="text-color:black;">Agregar</button>
+						</div>
+						<div class="col-lg-4">
+							<a type="button" class="btn btn-danger btn-block" href="{% url 'MostrarBeneficioAlumno' %}">Cancelar</a>
+						</div>
+				</div>	
+			</form>
+		</div>
+	</div>
+</body>

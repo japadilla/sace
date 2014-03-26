@@ -1,0 +1,28 @@
+{% include "beneficios/head.html" %}
+{% load url from future %}
+{% load staticfiles %}
+
+
+<head><title>Alumnos Beneficiados</title></head>
+<body>
+	<div class="container"><br>
+		<div class="jumbotron">
+			<h1 style="text-align:center;">Alumnos Beneficiados</h1>
+		</div>
+		<form method="POST" action=".">
+		{% csrf_token %}
+		<select class="form-control" name="beneficiado" placeholder="Beneficiado"/></select>
+		<input type="text" class="form-control" name="beneficiado" placeholder="Ingrese el nombre o número de cuenta"/>
+		<p>
+		   <select class="form-control" name="beneficiado" placeholder="Beneficiado"/></select>
+		   <select class="form-control" name="departamento" placeholder="Departamento"/></select>
+		   <select class="form-control" name="municipio" placeholder="Municipio"/></select>
+		   <select class="form-control" name="fchinicio" placeholder="Fecha Inicio"/></select>
+		   <select class="form-control" name="fchfin" placeholder="Fecha Fin"/></select>
+		</p>
+		<button type="submit" class="btn btn-primary btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficioAlumno' %}">Buscar</button>	
+		<a type="button" class="btn btn-danger btn-sm" style="text-color:black;" href="{% url 'MostrarBeneficioAlumno' %}">Cancelar</a>
+		<a type="button" class="btn btn-success btn-sm glyphicon glyphicon-file" href="{% url 'BeneficioAlumno' %}"> Agregar un nuevo Beneficio</a>
+		</form>		
+	</div>
+</body>
