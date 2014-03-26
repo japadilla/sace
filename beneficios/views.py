@@ -12,118 +12,141 @@ from django.contrib.auth.models import * #Group, User
 from django.contrib.auth import authenticate, login
 from django.template.defaultfilters import stringfilter
 from django.db.models import Q
+from django.db.models import Count
 
 
 def IndexBeneficios(request):
 	return render_to_response('beneficios/IndexBeneficios.html', context_instance=RequestContext(request))
 
+def mapa(request):
+	ctx={}
+	beneficios= Beneficios.objects.all().annotate(count=Count('pk'))	
+	centro= CentroEducativo.objects.all()
+	ctx['beneficios']=beneficios.count()
+	ctx['centro']=centro
+	print beneficios.count()
+	return render_to_response('beneficios/mapa.html',ctx, context_instance=RequestContext(request))
+
+
+def reportes(request):
+	
+	return render_to_response('beneficios/Reportes.html', context_instance=RequestContext(request))
+
 def MostrarBeneficios(request):
 	if request.method =='GET':
 		ctx={}
-		b= Beneficios.objects.all()
-		#p= Proveedor.objects.all()
-		#ctx['proveedor']=p
-		ctx['beneficios']=b
+		beneficios= Beneficios.objects.all()
+		ctx['beneficios']=beneficios
 		return render_to_response('beneficios/Beneficios.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		b= Beneficios.objects.filter(Q(nombre__icontains=buscar))
-		#p= Proveedor.objects.all()
-		#ctx['proveedor']=p
-		ctx['beneficios']=b
+		beneficios= Beneficios.objects.filter(Q(nombre__icontains=buscar))
+		ctx['beneficios']=beneficios
 	return render_to_response('beneficios/Beneficios.html', ctx, context_instance=RequestContext(request))
 
 def MostrarBeneficioCE(request):
 	if request.method =='GET':
 		ctx={}
-		bce= Beneficio_Ce.objects.filter(Q(estado=1))
-		p= Proveedor.objects.all()
-		b= Beneficios.objects.all()
+		beneficiosCentro= Beneficio_Ce.objects.filter(Q(estado=1))
+		proveedor= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
+		historico= Historico_Centro.objects.all()
 		beneficiado= CentroEducativo.objects.all()
-		ctx['proveedor']=p		
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficiosCentro']=bce	
+		ctx['beneficios']=beneficios
+		ctx['beneficiosCentro']=beneficiosCentro			
+		ctx['historico']=historico
 		return render_to_response('beneficios/Mostrar_Beneficios_Centro.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		b= Beneficios.objects.all()
-		bce= Beneficio_Ce.objects.filter(Q(centro__icontains=buscar), Q(estado=1))
-		p= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
+		historico= Historico_Centro.objects.all()
+		beneficiosCentro= Beneficio_Ce.objects.filter(Q(nombre__icontains=buscar), Q(estado=1))
+		proveedor= Proveedor.objects.all()
 		beneficiado= CentroEducativo.objects.all()
 		print eliminar
-		ctx['proveedor']=p		
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficiosCentro']=bce
+		ctx['beneficios']=beneficios
+		ctx['beneficiosCentro']=beneficiosCentro
+		ctx['historico']=historico
 	return render_to_response('beneficios/Mostrar_Beneficios_Centro.html', ctx, context_instance=RequestContext(request))
 
 def MostrarBeneficioAlumno(request):
 	if request.method =='GET':
 		ctx={}
-		ba= Beneficio_Alumno.objects.filter(Q(estado=1))
-		p= Proveedor.objects.all()
-		b= Beneficios.objects.all()
+		beneficio= Beneficio_Alumno.objects.filter(Q(estado=1))
+		proveedor= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
 		beneficiado= Alumno.objects.all()
-		ctx['proveedor']=p		
+		historico= Historico_Alumno.objects.all()
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficio']=ba		
+		ctx['beneficios']=beneficios
+		ctx['beneficio']=beneficio	
+		ctx['historico']=historico	
 		return render_to_response('beneficios/Mostrar_Beneficios_Alumno.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		b= Beneficios.objects.all()
-		ba= Beneficio_Alumno.objects.filter(Q(alumno__icontains=buscar), Q(estado=1))
-		p= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
+		beneficio= Beneficio_Alumno.objects.filter(Q(nombre__icontains=buscar), Q(estado=1))
+		proveedor= Proveedor.objects.all()
+		historico= Historico_Alumno.objects.all()
 		beneficiado= Alumno.objects.all()
 		print eliminar
-		ctx['proveedor']=p		
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficio']=ba
+		ctx['beneficios']=beneficios
+		ctx['beneficio']=beneficio
+		ctx['historico']=historico	
 	return render_to_response('beneficios/Mostrar_Beneficios_Alumno.html', ctx, context_instance=RequestContext(request))
 
 def MostrarBeneficioDocente(request):
 	if request.method =='GET':
 		ctx={}
-		bd= Beneficio_Docente.objects.filter(Q(estado=1))
-		p= Proveedor.objects.all()
-		b= Beneficios.objects.all()
+		beneficiod= Beneficio_Docente.objects.filter(Q(estado=1))
+		proveedor= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
 		beneficiado= Docente.objects.all()
-		ctx['proveedor']=p		
+		historico= Historico_Docente.objects.all()
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficiod']=bd		
+		ctx['beneficios']=beneficios
+		ctx['beneficiod']=beneficiod
+		ctx['historico']=historico		
 		return render_to_response('beneficios/Mostrar_Beneficios_Docente.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		b= Beneficios.objects.all()
-		ba= Beneficio_Alumno.objects.filter(Q(alumno__icontains=buscar), Q(estado=1))
-		p= Proveedor.objects.all()
+		beneficios= Beneficios.objects.all()
+		beneficiod= Beneficio_Docente.objects.filter(Q(nombre__icontains=buscar), Q(estado=1))
+		proveedor= Proveedor.objects.all()
 		beneficiado= Docente.objects.all()
+		historico= Historico_Docente.objects.all()
 		print eliminar
-		ctx['proveedor']=p		
+		ctx['proveedor']=proveedor		
 		ctx['beneficiado']=beneficiado
-		ctx['beneficios']=b
-		ctx['beneficiod']=ba
+		ctx['beneficios']=beneficios
+		ctx['beneficiod']=beneficiod
+		ctx['historico']=historico
 	return render_to_response('beneficios/Mostrar_Beneficios_Docente.html', ctx, context_instance=RequestContext(request))
 
 	
 def MostrarProveedores(request):
 	if request.method =='GET':
 		ctx={}
-		p= Proveedor.objects.all()
-		ctx['proveedor']=p
+		proveedor= Proveedor.objects.all()
+		ctx['proveedor']=proveedor
 		return render_to_response('beneficios/proveedores.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
 		buscar=request.POST['buscar'].strip()
-		p= Proveedor.objects.filter(Q(nombre__icontains=buscar) | Q(telefono_fijo__icontains=buscar))
-		ctx['proveedor']=p
+		proveedor= Proveedor.objects.filter(Q(nombre__icontains=buscar) | Q(telefono_fijo__icontains=buscar))
+		ctx['proveedor']=proveedor
 	return render_to_response('beneficios/proveedores.html', ctx, context_instance=RequestContext(request))
 
 def editarBeneficio(request, beneficio_id):
@@ -134,15 +157,12 @@ def editarBeneficio(request, beneficio_id):
 		mensaje="Seleccione los valores para editar el beneficio social."
 		ctx['beneficio']= beneficio		
 		ctx['titulo']= titulo
-		ctx['mensaje']= mensaje
-		beneficio1= Beneficios(id= beneficio_id, nombre="prueba", descripcion="prueba", fecha_creacion=datetime.now(), usuario_creador_id=1,fecha_modificacion=datetime.now(), usuario_modificador_id=1)
+		ctx['mensaje']= mensaje		
 	 	return render_to_response('beneficios/AgregarBeneficio.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':	
 		beneficio = request.POST['beneficio'].strip()
-        descripcion = request.POST['beneficioDsc'].strip()
-        cantidad = request.POST['cantidad'].strip()
         cuenta= request.POST['id']        
-    	beneficio1= Beneficios(id= cuenta, nombre=beneficio, descripcion=descripcion, cantidad=cantidad, fecha_creacion=datetime.now(), usuario_creador_id=1,fecha_modificacion=datetime.now(), usuario_modificador_id=1)
+    	beneficio1= Beneficios(id= cuenta, nombre=beneficio,fecha_creacion=datetime.now(), usuario_creador_id=1,fecha_modificacion=datetime.now(), usuario_modificador_id=1)
 	beneficio1.save()
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
 
@@ -170,8 +190,8 @@ def eliminarProveedor(request, proveedor_id):
 def editarProveedor(request, proveedor_id):
 	if request.method =='GET':
 		ctx={}
-		u= Proveedor.objects.get(pk=proveedor_id)
-		ctx['proveedor']=u
+		proveedor= Proveedor.objects.get(pk=proveedor_id)
+		ctx['proveedor']=proveedor
 	 	return render_to_response('beneficios/AgregarProveedor.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':	
 		proveedor = request.POST['proveedor'].strip()
@@ -185,18 +205,17 @@ def editarProveedor(request, proveedor_id):
 def AgregarBeneficios(request):
 	if request.method =='GET':
 		ctx={}
-		u= Proveedor.objects.all()
+		proveedor= Proveedor.objects.all()
 		titulo="Crear Un Nuevo Beneficio"
 		mensaje="Ingrese los siguientes valores para la creación de un nuevo beneficio social."
-		ctx['proveedor']=u
+		ctx['proveedor']=proveedor
 		ctx['titulo']= titulo
 		ctx['mensaje']= mensaje
 	 	return render_to_response('beneficios/AgregarBeneficio.html', ctx, context_instance=RequestContext(request))
 	elif request.method == 'POST':	
 		ctx={}
 		beneficio = request.POST['beneficio'].strip()
-        descripcion = request.POST['beneficioDsc'].strip()
-        insert= Beneficios(nombre=beneficio, descripcion=descripcion, fecha_creacion=datetime.now(), cantidad=cantidad,usuario_modificador_id=1, fecha_modificacion=datetime.now(),usuario_creador_id=1,)
+        insert= Beneficios(nombre=beneficio, fecha_creacion=datetime.now(),usuario_modificador_id=1, fecha_modificacion=datetime.now(),usuario_creador_id=1,)
         insert.save()
 	return HttpResponseRedirect(reverse('MostrarBeneficios'))
 
@@ -205,10 +224,10 @@ def BeneficioCe(request):
 		ctx={}
 		beneficio= Beneficios.objects.all()
 		centro= CentroEducativo.objects.all()
-		p= Proveedor.objects.all()
+		proveedor= Proveedor.objects.all()
 		ctx['centro']=centro
 		ctx['beneficio']= beneficio
-		ctx['proveedor']= p
+		ctx['proveedor']= proveedor
 		return render_to_response('beneficios/Beneficio_Centro.html', ctx,context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}
@@ -242,10 +261,10 @@ def BeneficioAlumno(request):
 		ctx={}
 		beneficio= Beneficios.objects.all()
 		alumno= Alumno.objects.all()
-		p= Proveedor.objects.all()
+		proveedor= Proveedor.objects.all()
 		ctx['alumno']=alumno
 		ctx['beneficio']= beneficio
-		ctx['proveedor']= p
+		ctx['proveedor']= proveedor
 		return render_to_response('beneficios/Nuevo_Beneficio_Alumno.html', ctx,context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		beneficio= request.POST['beneficio'].strip()
@@ -277,10 +296,10 @@ def BeneficioDocente(request):
 		ctx={}
 		beneficio= Beneficios.objects.all()
 		docente= Docente.objects.all()
-		p= Proveedor.objects.all()
+		proveedor= Proveedor.objects.all()
 		ctx['docente']=docente
 		ctx['beneficio']= beneficio
-		ctx['proveedor']= p
+		ctx['proveedor']= proveedor
 		return render_to_response('beneficios/Nuevo_Beneficio_Docente.html', ctx,context_instance=RequestContext(request))
 	elif request.method == 'POST':
 		ctx={}

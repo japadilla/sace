@@ -19,7 +19,7 @@
 		<br><br>
 		<table class="table table-bordered">
  			<thead>
- 				<tr><th>Editar</th><th>Eliminar</th><th>Beneficio</th><th>Descripcion</th><th>Fecha de Creación</th></tr>
+ 				<tr><th>Editar</th><th>Eliminar</th><th>Beneficio</th><th>Fecha de Creación</th></tr>
  			</thead> 			
  			<tbody>
  				{% for b in beneficios %} 				
@@ -27,7 +27,6 @@
  					<td style="width:20px;"><a class="btn btn-primary btn-block btn-xs glyphicon glyphicon-pencil" href="{% url 'editarBeneficio' b.id %}"></a></td>
  					<td style="width:20px;"><a type="button "class="btn btn-danger btn-block btn-xs glyphicon glyphicon-remove-sign" href="{% url 'eliminarBeneficio' b.id %}"></a></td>
  					<td>{{ b.nombre }}</td>
- 					<td>{{ b.descripcion }}</td>
  					<td>{{ b.fecha_creacion }}</td>
  				</tr> 
  				{% endfor %}

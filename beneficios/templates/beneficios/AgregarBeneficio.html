@@ -15,25 +15,14 @@
 				{% csrf_token %}
 				<div class="row" style="padding-top: 50px;">
   					<div class="col-lg-6 col-md-3 col-md-offset-3">
-						<label>Beneficio: </label><input type="text" class="form-control" name="beneficio" value="{{beneficio.nombre}}" maxlength="20"/>
-						<input type="hidden" class="form-control" name="id" value="{{beneficio.id}}"/>
-					</div>
-				</div><br>
-				<div class="row">
-					<div class="col-lg-6 col-md-3 col-md-offset-3">
-						<label>Descripcion: </label><textarea class="form-control" rows="2" name="beneficioDsc" maxlength="20">{{beneficio.descripcion}}</textarea>	
-					</div>
-				</div><br>
-				<div class="row" style="padding-top: 50px;">
-  					<div class="col-lg-6 col-md-3 col-md-offset-3">
-						<label>Cantidad: </label><input type="text" class="form-control" name="cantidad" value="{{beneficio.cantidad}}" maxlength="6"/>
+						<label>Beneficio: </label><input type="text" class="form-control" name="beneficio" value="{{beneficio.nombre}}"/>
 						<input type="hidden" class="form-control" name="id" value="{{beneficio.id}}"/>
 					</div>
 				</div><br>
 				<div class="row" style="padding-left:350px; padding-bottom:30px">
 					<br><br>
 						<div class="col-lg-3">
-							<button type="submit" class="btn btn-success btn-block" style="text-color:black;" name="agregarProveedor">Agregar</button>
+							<button type="submit" class="btn btn-success btn-block" style="text-color:black;">Agregar</button>
 						</div>
 						<div class="col-lg-3">
 							<a type="button" class="btn btn-danger btn-block" href="{% url 'MostrarBeneficios' %}">Cancelar</a>
